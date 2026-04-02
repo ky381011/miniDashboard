@@ -1,11 +1,10 @@
 import './App.css'
+import { Dashboard } from './components/layout/Dashboard'
 
 function App() {
   return (
     <>
-      <div className='bg-sky-100 min-h-screen'>
-
-      </div>
+      <Dashboard />
     </>
   )
 }
