@@ -1,3 +1,15 @@
 {
   "css.lint.unknownAtRules": "ignore",
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false,
+
+    "javascript": false,
+    "typescript": false,
+    "javascriptreact": false,
+    "typescriptreact": false,
+    "css": false,
+  }
 }
