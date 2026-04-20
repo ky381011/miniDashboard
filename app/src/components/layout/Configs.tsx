@@ -13,7 +13,7 @@ export function Configs({ isOpen, onToggle }: ConfigsProps) {
       <div className='flex flex-col'>
         <button
           onClick={onToggle}
-          className='p-2 text-white hover:opacity-70 flex justify-center'
+          className='w-10 p-2 text-white hover:opacity-70 flex justify-center flex-shrink-0 ml-auto'
           aria-label='Toggle configs'
         >
           <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
