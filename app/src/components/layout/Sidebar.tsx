@@ -6,7 +6,7 @@ interface SidebarProps {
 export function Sidebar({ isOpen, onToggle }: SidebarProps) {
   return (
     <div
-      className={`bg-mauve-900 flex-shrink-0 min-h-screen overflow-hidden transition-[width] duration-300 ${
+      className={`bg-mauve-950 border-r border-mauve-200 flex-shrink-0 min-h-screen overflow-hidden transition-[width] duration-300 ${
         isOpen ? 'w-48' : 'w-10'
       }`}
     >
