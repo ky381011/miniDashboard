@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
 #root {
+  @apply main-theme;
+}
+
+.main-theme {
   @apply bg-mauve-950;
+}
+
+html.light .main-theme {
+  @apply bg-mauve-100;
 }
