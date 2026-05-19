@@ -4,8 +4,11 @@ import { Main } from "./Main";
 import { Sidebar } from "./Sidebar";
 
 export function Dashboard() {
+  // サイドバーの開閉状態
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  // 設定パネルの開閉状態
   const [configsOpen, setConfigsOpen] = useState(true);
+  // ダークモードの状態
   const [isDark, setIsDark] = useState(true);
 
   useEffect(() => {
