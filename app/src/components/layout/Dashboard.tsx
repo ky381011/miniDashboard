@@ -11,6 +11,7 @@ export function Dashboard() {
   // ダークモードの状態
   const [isDark, setIsDark] = useState(true);
 
+  // isDark が変わるたびに html 要素の light クラスを切り替える
   useEffect(() => {
     document.documentElement.classList.toggle('light', !isDark);
   }, [isDark]);
