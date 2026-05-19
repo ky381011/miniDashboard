@@ -4,10 +4,10 @@
   @apply main-theme;
 }
 
-.main-theme {
+@utility main-theme {
   @apply bg-mauve-950;
-}
 
-html.light .main-theme {
-  @apply bg-mauve-100;
+  html.light & {
+    @apply bg-mauve-100;
+  }
 }
