@@ -5,9 +5,9 @@ import { Sidebar } from "./Sidebar";
 
 export function Dashboard() {
   // サイドバーの開閉状態
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   // 設定パネルの開閉状態
-  const [configsOpen, setConfigsOpen] = useState(true);
+  const [configsOpen, setConfigsOpen] = useState(false);
   // ダークモードの状態
   const [isDark, setIsDark] = useState(true);
 
