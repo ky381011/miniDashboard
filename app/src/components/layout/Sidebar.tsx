@@ -23,7 +23,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
         {/* ハンバーガーアイコンボタン: クリックで onToggle を呼び出す */}
         <button
           onClick={onToggle}
-          className='w-10 p-2 text-white hover:opacity-70 flex justify-center shrink-0'
+          className='w-10 p-2 theme-text hover:opacity-70 flex justify-center shrink-0'
           aria-label='Toggle sidebar'
         >
           {/* Font Awesome のハンバーガーアイコン */}

@@ -27,7 +27,7 @@ export function Configs({ isOpen, onToggle, isDark, onThemeToggle }: ConfigsProp
         {/* 歯車アイコンボタン: クリックで onToggle を呼び出す */}
         <button
           onClick={onToggle}
-          className='w-10 p-2 text-white hover:opacity-70 flex justify-center shrink-0 ml-auto'
+          className='w-10 p-2 theme-text hover:opacity-70 flex justify-center shrink-0 ml-auto'
           aria-label='Toggle configs'
         >
           {/* Font Awesome の歯車アイコン */}
@@ -37,16 +37,16 @@ export function Configs({ isOpen, onToggle, isDark, onThemeToggle }: ConfigsProp
         {/* パネルが開いているときのみテーマ切り替えセクションを表示 */}
         {isOpen && (
           <div className='mt-auto p-3 border-t border-mauve-200'>
-            <p className='text-mauve-400 text-xs mb-2'>テーマ</p>
+            <p className='theme-text-muted text-xs mb-2'>テーマ</p>
             {/* テーマ切り替えボタン: isDark に応じてアイコンとラベルを切り替え */}
             <button
               onClick={onThemeToggle}
-              className='flex items-center gap-2 text-white hover:opacity-70 w-full'
+              className='flex items-center gap-2 theme-text hover:opacity-70 w-full'
               aria-label='Toggle theme'
             >
               {/* ダーク時は月アイコン、ライト時は太陽アイコン */}
-              <i className={`fa-solid ${isDark ? 'fa-moon' : 'fa-sun'} text-mauve-400`}></i>
-              <span className='text-sm text-mauve-200'>{isDark ? 'ダーク' : 'ライト'}</span>
+              <i className={`fa-solid ${isDark ? 'fa-moon' : 'fa-sun'} theme-text-muted`}></i>
+              <span className='text-sm theme-text-subtle'>{isDark ? 'ダーク' : 'ライト'}</span>
             </button>
           </div>
         )}

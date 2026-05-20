@@ -11,3 +11,19 @@
     @apply bg-mauve-100;
   }
 }
+
+/* テーマ対応の文字色ユーティリティ */
+@utility theme-text {
+  @apply text-white;
+  html.light & { @apply text-mauve-900; }
+}
+
+@utility theme-text-muted {
+  @apply text-mauve-400;
+  html.light & { @apply text-mauve-600; }
+}
+
+@utility theme-text-subtle {
+  @apply text-mauve-200;
+  html.light & { @apply text-mauve-700; }
+}
