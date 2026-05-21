@@ -27,3 +27,8 @@
   @apply text-mauve-200;
   html.light & { @apply text-mauve-700; }
 }
+
+@utility theme-border {
+  @apply border-mauve-900;
+  html.light & { @apply border-mauve-200; }
+}

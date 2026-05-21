@@ -19,7 +19,7 @@ export function Configs({ isOpen, onToggle, isDark, onThemeToggle }: ConfigsProp
   return (
     // 設定パネル全体のラッパー: isOpen に応じて幅をアニメーション切り替え
     <div
-      className={`main-theme border-l border-mauve-200 shrink-0 min-h-screen overflow-hidden transition-[width] duration-300 ${
+      className={`main-theme border-l theme-border shrink-0 min-h-screen overflow-hidden transition-[width] duration-300 ${
         isOpen ? 'w-48' : 'w-10'
       }`}
     >
@@ -36,7 +36,7 @@ export function Configs({ isOpen, onToggle, isDark, onThemeToggle }: ConfigsProp
 
         {/* パネルが開いているときのみテーマ切り替えセクションを表示 */}
         {isOpen && (
-          <div className='mt-auto p-3 border-t border-mauve-200'>
+          <div className='mt-auto p-3 border-t theme-border'>
             <p className='theme-text-muted text-xs mb-2'>テーマ</p>
             {/* テーマ切り替えボタン: isDark に応じてアイコンとラベルを切り替え */}
             <button
