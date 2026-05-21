@@ -27,7 +27,7 @@ export function Configs({ isOpen, onToggle, isDark, onThemeToggle }: ConfigsProp
         {/* 歯車アイコンボタン: クリックで onToggle を呼び出す */}
         <button
           onClick={onToggle}
-          className='w-10 p-2 theme-text hover:opacity-70 flex justify-center shrink-0 ml-auto'
+          className='w-10 p-2 theme-icon-btn flex justify-center shrink-0 ml-auto'
           aria-label='Toggle configs'
         >
           {/* Font Awesome の歯車アイコン */}

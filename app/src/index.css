@@ -32,3 +32,10 @@
   @apply border-mauve-900;
   html.light & { @apply border-mauve-200; }
 }
+
+@utility theme-icon-btn {
+  @apply text-mauve-500 hover:text-mauve-300 hover:bg-mauve-800 rounded transition-colors duration-200;
+  html.light & {
+    @apply text-mauve-500 hover:text-mauve-700 hover:bg-mauve-200;
+  }
+}
