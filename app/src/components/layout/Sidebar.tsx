@@ -28,7 +28,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
         >
           {/* Font Awesome のハンバーガーアイコン */}
           <i
-            className={`fa-solid fa-bars text-lg transition-transform duration-700 ${isOpen ? 'rotate-90' : 'rotate-0'}`}
+            className={`fa-solid fa-bars text-lg transition-colors duration-700 ${isOpen ? 'text-blue-400' : ''}`}
           ></i>
         </button>
         {/* メニュー項目 */}
