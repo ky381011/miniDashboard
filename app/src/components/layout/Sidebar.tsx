@@ -15,7 +15,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
   return (
     // サイドバー全体のラッパー: isOpen に応じて幅をアニメーション切り替え
     <div
-      className={`main-theme border-r theme-border shrink-0 min-h-screen overflow-hidden transition-[width] duration-300 ${
+      className={`main-theme border-r theme-border shrink-0 min-h-screen overflow-hidden transition-[width] duration-700 ${
         isOpen ? 'w-48' : 'w-10'
       }`}
     >
