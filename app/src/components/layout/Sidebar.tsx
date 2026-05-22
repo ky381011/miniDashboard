@@ -29,7 +29,25 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
           {/* Font Awesome のハンバーガーアイコン */}
           <i className='fa-solid fa-bars text-lg'></i>
         </button>
-        {/* サイドバーのコンテンツ領域 (今後ここにメニュー項目を追加) */}
+        {/* メニュー項目 */}
+        {[
+          { icon: 'fa-house',        label: 'ホーム' },
+          { icon: 'fa-chart-bar',    label: 'レポート' },
+          { icon: 'fa-users',        label: 'ユーザー' },
+          { icon: 'fa-gear',         label: '設定' },
+          { icon: 'fa-circle-info',  label: 'ヘルプ' },
+        ].map(({ icon, label }) => (
+          <button
+            key={icon}
+            className='w-full flex items-center gap-3 px-2 py-2 theme-icon-btn whitespace-nowrap overflow-hidden'
+            title={label}
+          >
+            <i className={`fa-solid ${icon} text-lg w-6 shrink-0 text-center`}></i>
+            <span className={`text-sm transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
+              {label}
+            </span>
+          </button>
+        ))}
       </div>
     </div>
   )
