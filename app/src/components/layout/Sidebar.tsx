@@ -27,7 +27,9 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
           aria-label='Toggle sidebar'
         >
           {/* Font Awesome のハンバーガーアイコン */}
-          <i className='fa-solid fa-bars text-lg'></i>
+          <i
+            className={`fa-solid fa-bars text-lg transition-transform duration-700 ${isOpen ? 'rotate-90' : 'rotate-0'}`}
+          ></i>
         </button>
         {/* メニュー項目 */}
         {[
@@ -43,7 +45,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
             title={label}
           >
             <i className={`fa-solid ${icon} text-lg w-6 shrink-0 text-center`}></i>
-            <span className={`text-sm transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
+            <span className={`text-sm transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
               {label}
             </span>
           </button>
