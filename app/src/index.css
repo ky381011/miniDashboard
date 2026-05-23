@@ -5,10 +5,10 @@
 }
 
 @utility main-theme {
-  @apply bg-mauve-950;
+  @apply bg-mauve-950 text-white;
 
   html.light & {
-    @apply bg-mauve-100;
+    @apply bg-mauve-100 text-mauve-900;
   }
 }
 
