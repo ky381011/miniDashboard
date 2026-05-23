@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 /** サイドバーコンポーネントのProps */
 interface SidebarProps {
   /** サイドバーが開いているかどうか (true: 展開, false: 折りたたみ) */
@@ -12,6 +14,15 @@ interface SidebarProps {
  * - 幅の変化は CSS transition でアニメーションする
  */
 export function Sidebar({ isOpen, onToggle }: SidebarProps) {
+  const [now, setNow] = useState(() => new Date());
+
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const timeStr = now.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  const dateStr = now.toLocaleDateString('ja-JP', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' });
   return (
     // サイドバー全体のラッパー: isOpen に応じて幅をアニメーション切り替え
     <div
@@ -50,6 +61,12 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
             </span>
           </button>
         ))}
+        {/* 日本時間 */}
+        <div className={`px-2 py-3 mt-2 border-t theme-border whitespace-nowrap overflow-hidden transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
+          <p className='text-xs text-white text-center'>{dateStr}</p>
+          <p className='text-lg text-white text-center font-mono tracking-widest'>{timeStr}</p>
+          <p className='text-xs text-white text-center opacity-60'>JST</p>
+        </div>
       </div>
     </div>
   )
