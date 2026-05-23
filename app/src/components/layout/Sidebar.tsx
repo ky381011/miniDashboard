@@ -45,7 +45,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
             title={label}
           >
             <i className={`fa-solid ${icon} text-lg w-6 shrink-0 text-center`}></i>
-            <span className={`text-sm transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
+            <span className={`text-sm text-white transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
               {label}
             </span>
           </button>
