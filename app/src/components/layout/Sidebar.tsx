@@ -30,7 +30,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
         isOpen ? 'w-48' : 'w-10'
       }`}
     >
-      <div className='flex flex-col'>
+      <div className='flex flex-col min-h-screen'>
         {/* ハンバーガーアイコンボタン: クリックで onToggle を呼び出す */}
         <button
           onClick={onToggle}
@@ -61,8 +61,10 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
             </span>
           </button>
         ))}
+        {/* スペーサー */}
+        <div className='flex-1' />
         {/* 日本時間 */}
-        <div className={`px-2 py-3 mt-2 border-t theme-border whitespace-nowrap overflow-hidden transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`px-2 py-3 border-t theme-border whitespace-nowrap overflow-hidden transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
           <p className='text-xs text-white text-center'>{dateStr}</p>
           <p className='text-lg text-white text-center font-mono tracking-widest'>{timeStr}</p>
           <p className='text-xs text-white text-center opacity-60'>JST</p>
