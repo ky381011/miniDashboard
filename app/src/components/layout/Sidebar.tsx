@@ -21,7 +21,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
     return () => clearInterval(id);
   }, []);
 
-  const timeStr = now.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  const timeStr = now.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo', hour: '2-digit', minute: '2-digit' });
   const dateStr = now.toLocaleDateString('ja-JP', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' });
   return (
     // サイドバー全体のラッパー: isOpen に応じて幅をアニメーション切り替え
