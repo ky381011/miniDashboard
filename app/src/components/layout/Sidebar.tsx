@@ -16,12 +16,15 @@ interface SidebarProps {
 export function Sidebar({ isOpen, onToggle }: SidebarProps) {
   const [now, setNow] = useState(() => new Date());
 
+  // 1秒ごとに現在時刻を更新するインターバルを設定し、アンマウント時にクリアする
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(id);
   }, []);
 
+  // 時刻文字列: HH:MM 形式 (日本時間)
   const timeStr = now.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo', hour: '2-digit', minute: '2-digit' });
+  // 日付文字列: YYYY/MM/DD 形式 (日本時間)
   const dateStr = now.toLocaleDateString('ja-JP', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' });
   return (
     // サイドバー全体のラッパー: isOpen に応じて幅をアニメーション切り替え
