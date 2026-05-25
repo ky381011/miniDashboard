@@ -19,7 +19,7 @@ export function Configs({ isOpen, onToggle, isDark, onThemeToggle }: ConfigsProp
   return (
     // 設定パネル全体のラッパー: isOpen に応じて幅をアニメーション切り替え
     <div
-      className={`main-theme border-l theme-border shrink-0 min-h-screen overflow-hidden transition-[width] duration-300 ${
+      className={`main-theme border-l theme-border shrink-0 min-h-screen overflow-hidden transition-[width] duration-700 ${
         isOpen ? 'w-48' : 'w-10'
       }`}
     >
@@ -31,25 +31,23 @@ export function Configs({ isOpen, onToggle, isDark, onThemeToggle }: ConfigsProp
           aria-label='Toggle configs'
         >
           {/* Font Awesome の歯車アイコン */}
-          <i className='fa-solid fa-gear text-lg'></i>
+          <i className={`fa-solid fa-gear text-lg transition-colors duration-700 ${isOpen ? 'text-blue-400' : ''}`}></i>
         </button>
 
-        {/* パネルが開いているときのみテーマ切り替えセクションを表示 */}
-        {isOpen && (
-          <div className='mt-auto p-3 border-t theme-border'>
-            <p className='theme-text-muted text-xs mb-2'>テーマ</p>
-            {/* テーマ切り替えボタン: isDark に応じてアイコンとラベルを切り替え */}
-            <button
-              onClick={onThemeToggle}
-              className='flex items-center gap-2 theme-text hover:opacity-70 w-full'
-              aria-label='Toggle theme'
-            >
-              {/* ダーク時は月アイコン、ライト時は太陽アイコン */}
-              <i className={`fa-solid ${isDark ? 'fa-moon' : 'fa-sun'} theme-text-muted`}></i>
-              <span className='text-sm theme-text-subtle'>{isDark ? 'ダーク' : 'ライト'}</span>
-            </button>
-          </div>
-        )}
+        {/* テーマ切り替えセクション: isOpen に応じて opacity をアニメーション切り替え */}
+        <div className={`mt-auto p-3 border-t theme-border whitespace-nowrap overflow-hidden transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
+          <p className='theme-text-muted text-xs mb-2'>テーマ</p>
+          {/* テーマ切り替えボタン: isDark に応じてアイコンとラベルを切り替え */}
+          <button
+            onClick={onThemeToggle}
+            className='flex items-center gap-2 theme-text hover:opacity-70 w-full'
+            aria-label='Toggle theme'
+          >
+            {/* ダーク時は月アイコン、ライト時は太陽アイコン */}
+            <i className={`fa-solid ${isDark ? 'fa-moon' : 'fa-sun'} theme-text-muted`}></i>
+            <span className='text-sm theme-text-subtle'>{isDark ? 'ダーク' : 'ライト'}</span>
+          </button>
+        </div>
       </div>
     </div>
   )
