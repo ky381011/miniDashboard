@@ -1,3 +1,5 @@
+import { getPanelClasses } from '../../utils/panelClasses';
+
 /** 設定パネルコンポーネントのProps */
 interface ConfigsProps {
   /** パネルが開いているかどうか (true: 展開, false: 折りたたみ) */
@@ -18,11 +20,7 @@ interface ConfigsProps {
 export function Configs({ isOpen, onToggle, isDark, onThemeToggle }: ConfigsProps) {
   return (
     // 設定パネル全体のラッパー: isOpen に応じて幅をアニメーション切り替え
-    <div
-      className={`main-theme border-l theme-border shrink-0 min-h-screen overflow-hidden transition-[width] duration-700 ${
-        isOpen ? 'w-48' : 'w-10'
-      }`}
-    >
+    <div className={getPanelClasses(isOpen, 'right')}>
       <div className='flex flex-col h-full min-h-screen'>
         {/* 歯車アイコンボタン: クリックで onToggle を呼び出す */}
         <button

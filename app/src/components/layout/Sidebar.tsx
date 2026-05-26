@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { getPanelClasses } from '../../utils/panelClasses';
 
 /** サイドバーコンポーネントのProps */
 interface SidebarProps {
@@ -28,11 +29,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
   const dateStr = now.toLocaleDateString('ja-JP', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' });
   return (
     // サイドバー全体のラッパー: isOpen に応じて幅をアニメーション切り替え
-    <div
-      className={`main-theme border-r theme-border shrink-0 min-h-screen overflow-hidden transition-[width] duration-700 ${
-        isOpen ? 'w-48' : 'w-10'
-      }`}
-    >
+    <div className={getPanelClasses(isOpen, 'left')}>
       <div className='flex flex-col min-h-screen'>
         {/* ハンバーガーアイコンボタン: クリックで onToggle を呼び出す */}
         <button
