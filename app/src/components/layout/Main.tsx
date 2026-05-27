@@ -1,9 +1,13 @@
 import { WeatherWidget } from '../weather/WeatherWidget'
 
-export function Main() {
+interface MainProps {
+  visibleWidgets: string[];
+}
+
+export function Main({ visibleWidgets }: MainProps) {
   return (
     <div className='main-theme flex-1 min-h-screen p-4'>
-      <WeatherWidget />
+      {visibleWidgets.includes('weather') && <WeatherWidget />}
     </div>
   )
 }
