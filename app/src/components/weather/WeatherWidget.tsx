@@ -29,8 +29,9 @@ function formatDateTime(iso: string): string {
   })
 }
 
+/** 東京都大田区が含まれる地域コード: 130000 (東京都)、エリア: 東京地方 */
 export function WeatherWidget() {
-  const { forecast, status, error, refresh } = useJmaWeather()
+  const { forecast, status, error, refresh } = useJmaWeather('130000')
 
   return (
     <div className="rounded-xl border theme-border p-4 w-full">

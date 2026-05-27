@@ -4,6 +4,8 @@ export interface FeedEntry {
   title: string
   /** 情報種別コード (e.g., "VPFW50") — <id> URL から抽出 */
   infoType: string
+  /** 地域コード (e.g., "130000") — <id> URL から抽出 */
+  regionCode: string
   updated: string
   link: string
 }
@@ -90,12 +92,14 @@ export function parseAtomFeed(xml: string): FeedEntry[] {
   return els(doc, 'entry').map(e => {
     const title = txt(e, 'title')
     const id = txt(e, 'id')
-    // URL パターン: <timestamp>_0_<InfoType>_<AreaCode>.xml
-    const infoType = id.match(/_([A-Z0-9]+)_\d+\.xml$/)?.[1] ?? ''
+    // URL パターン: <timestamp>_0_<InfoType>_<RegionCode>.xml
+    const infoType = id.match(/_([A-Z0-9]+)_(\d+)\.xml$/)?.[1] ?? ''
+    const regionCode = id.match(/_[A-Z0-9]+_(\d+)\.xml$/)?.[1] ?? ''
     return {
       id,
       title,
       infoType,
+      regionCode,
       updated: txt(e, 'updated'),
       link: e.querySelector('link')?.getAttribute('href') ?? '',
     }

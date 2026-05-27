@@ -12,17 +12,15 @@ export interface UseJmaWeatherResult {
 
 /** 気象庁防災情報 Atom フィード (定期配信) の URL (Vite プロキシ経由) */
 const FEED_URL = '/jma/developer/xml/feed/regular.xml'
-/** 取得対象の情報種別: 府県天気予報 */
+/** 取得対象の情報種別: 府県週間天気予報 */
 const TARGET_TYPE = 'VPFW50'
 
 /**
- * 気象庁防災情報 XML フォーマットから府県天気予報を取得するフック。
+ * 気象庁防災情報 XML フォーマットから府県週間天気予報を取得するフック。
  *
- * 1. `/jma/developer/xml/feed/regular.xml` (Atom フィード) を取得
- * 2. VPFW50 エントリを探して最新の天気予報 XML を取得
- * 3. parseWeatherXml でパースして WeatherForecast を返す
+ * @param regionCode 取得対象の地域コード (デフォルト: '130000' = 東京都)
  */
-export function useJmaWeather(): UseJmaWeatherResult {
+export function useJmaWeather(regionCode = '130000'): UseJmaWeatherResult {
   const [forecast, setForecast] = useState<WeatherForecast | null>(null)
   const [status, setStatus] = useState<Status>('idle')
   const [error, setError] = useState<string | null>(null)
@@ -44,8 +42,11 @@ export function useJmaWeather(): UseJmaWeatherResult {
         const feedXml = await feedRes.text()
 
         const entries = parseAtomFeed(feedXml)
-        const target = entries.find(e => e.infoType === TARGET_TYPE)
-        if (!target) throw new Error(`${TARGET_TYPE} のエントリが見つかりません`)
+        const target = entries.find(
+          e => e.infoType === TARGET_TYPE && e.regionCode === regionCode,
+        )
+        if (!target)
+          throw new Error(`${TARGET_TYPE} (地域: ${regionCode}) のエントリが見つかりません`)
 
         // Step 2: 天気予報 XML を取得してパース
         const dataRes = await fetch(toProxyUrl(target.link))
@@ -71,7 +72,7 @@ export function useJmaWeather(): UseJmaWeatherResult {
     return () => {
       cancelled = true
     }
-  }, [revision])
+  }, [revision, regionCode])
 
   return { forecast, status, error, refresh }
 }
