@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { getPanelClasses } from '../../utils/panelClasses';
 
-/** ウィジェットの定義 */
-export interface WidgetOption {
-  id: string;
-  label: string;
-  icon: string;
+/** 都市の定義 */
+export interface CityOption {
+  id: string;   // JMA 地域コード
+  label: string; // 表示名
 }
 
 /** 設定パネルコンポーネントのProps */
@@ -18,12 +17,12 @@ interface ConfigsProps {
   isDark: boolean;
   /** テーマを切り替えるコールバック */
   onThemeToggle: () => void;
-  /** 利用可能なウィジェット一覧 */
-  widgets: WidgetOption[];
-  /** 現在表示中のウィジェット ID 一覧 */
-  visibleWidgets: string[];
-  /** ウィジェットの表示/非表示を切り替えるコールバック */
-  onToggleWidget: (id: string) => void;
+  /** 利用可能な都市一覧 */
+  cities: CityOption[];
+  /** 現在表示中の都市 ID 一覧 */
+  selectedCities: string[];
+  /** 都市の表示/非表示を切り替えるコールバック */
+  onToggleCity: (id: string) => void;
 }
 
 /**
@@ -31,7 +30,7 @@ interface ConfigsProps {
  * - 画面右端に配置し、isOpen に応じて w-48 / w-10 をアニメーション切り替え
  * - パネルが開いているときのみテーマ切り替えボタンとウィジェット選択を表示する
  */
-export function Configs({ isOpen, onToggle, isDark, onThemeToggle, widgets, visibleWidgets, onToggleWidget }: ConfigsProps) {
+export function Configs({ isOpen, onToggle, isDark, onThemeToggle, cities, selectedCities, onToggleCity }: ConfigsProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -53,11 +52,11 @@ export function Configs({ isOpen, onToggle, isDark, onThemeToggle, widgets, visi
   }, [dropdownOpen]);
 
   const selectionLabel =
-    visibleWidgets.length === 0
+    selectedCities.length === 0
       ? 'なし'
-      : visibleWidgets.length === widgets.length
+      : selectedCities.length === cities.length
       ? 'すべて'
-      : `${visibleWidgets.length} / ${widgets.length}`;
+      : `${selectedCities.length} / ${cities.length}`;
 
   return (
     // 設定パネル全体のラッパー: isOpen に応じて幅をアニメーション切り替え
@@ -75,7 +74,7 @@ export function Configs({ isOpen, onToggle, isDark, onThemeToggle, widgets, visi
 
         {/* ウィジェット表示選択: isOpen に応じて opacity をアニメーション切り替え */}
         <div className={`p-3 border-b theme-border whitespace-nowrap overflow-hidden transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
-          <p className='theme-text-muted text-xs mb-2'>表示ウィジェット</p>
+          <p className='theme-text-muted text-xs mb-2'>表示都市</p>
           <div className='relative' ref={dropdownRef}>
             {/* ドロップダウントリガーボタン */}
             <button
@@ -89,19 +88,19 @@ export function Configs({ isOpen, onToggle, isDark, onThemeToggle, widgets, visi
             {/* チェックボックスリスト */}
             {dropdownOpen && (
               <div className='absolute right-0 mt-1 w-full main-theme border theme-border rounded shadow-lg z-10'>
-                {widgets.map(w => (
+                {cities.map(c => (
                   <label
-                    key={w.id}
+                    key={c.id}
                     className='flex items-center gap-2 px-2 py-1.5 cursor-pointer theme-icon-btn w-full text-xs theme-text'
                   >
                     <input
                       type='checkbox'
-                      checked={visibleWidgets.includes(w.id)}
-                      onChange={() => onToggleWidget(w.id)}
+                      checked={selectedCities.includes(c.id)}
+                      onChange={() => onToggleCity(c.id)}
                       className='accent-blue-400 shrink-0'
                     />
-                    <i className={`fa-solid ${w.icon} theme-text-muted`} />
-                    <span>{w.label}</span>
+                    <i className='fa-solid fa-location-dot theme-text-muted' />
+                    <span>{c.label}</span>
                   </label>
                 ))}
               </div>

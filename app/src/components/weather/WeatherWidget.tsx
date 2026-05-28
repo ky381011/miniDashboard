@@ -29,9 +29,15 @@ function formatDateTime(iso: string): string {
   })
 }
 
-/** 東京都大田区が含まれる地域コード: 130000 (東京都)、エリア: 東京地方 */
-export function WeatherWidget() {
-  const { forecast, status, error, refresh } = useJmaWeather('130000')
+interface WeatherWidgetProps {
+  /** 取得対象の地域コード (e.g., '130000' = 東京都) */
+  regionCode: string;
+  /** 都市の表示名 */
+  cityLabel: string;
+}
+
+export function WeatherWidget({ regionCode, cityLabel }: WeatherWidgetProps) {
+  const { forecast, status, error, refresh } = useJmaWeather(regionCode)
 
   return (
     <div className="rounded-xl border theme-border p-4 w-full">
@@ -39,7 +45,7 @@ export function WeatherWidget() {
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <i className="fa-solid fa-cloud-sun theme-text-muted text-lg" />
-          <span className="font-semibold theme-text text-sm">天気予報</span>
+          <span className="font-semibold theme-text text-sm">{cityLabel}</span>
           {forecast && (
             <span className="theme-text-muted text-xs">({forecast.publishingOffice})</span>
           )}
