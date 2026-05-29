@@ -73,21 +73,21 @@ export function Configs({ isOpen, onToggle, isDark, onThemeToggle, cities, selec
         </button>
 
         {/* ウィジェット表示選択: isOpen に応じて opacity をアニメーション切り替え */}
-        <div className={`p-3 border-b theme-border whitespace-nowrap overflow-hidden transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
-          <p className='theme-text-muted text-xs mb-2'>表示都市</p>
-          <div className='relative' ref={dropdownRef}>
+        <div className={`p-3 border-b theme-border transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
+          <p className='theme-text-muted text-xs mb-2 whitespace-nowrap'>表示都市</p>
+          <div ref={dropdownRef}>
             {/* ドロップダウントリガーボタン */}
             <button
               onClick={() => setDropdownOpen(o => !o)}
-              className='w-full flex items-center justify-between gap-1 text-xs theme-text border theme-border rounded px-2 py-1 hover:opacity-70'
+              className='w-full flex items-center justify-between gap-1 text-xs theme-text border theme-border rounded px-2 py-1 hover:opacity-70 whitespace-nowrap overflow-hidden'
             >
               <span>{selectionLabel}</span>
-              <i className={`fa-solid fa-chevron-down text-xs transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} />
+              <i className={`fa-solid fa-chevron-down text-xs transition-transform duration-200 shrink-0 ${dropdownOpen ? 'rotate-180' : ''}`} />
             </button>
 
-            {/* チェックボックスリスト */}
+            {/* チェックボックスリスト (通常フローで展開) */}
             {dropdownOpen && (
-              <div className='absolute right-0 mt-1 w-full main-theme border theme-border rounded shadow-lg z-10'>
+              <div className='mt-1 border theme-border rounded overflow-hidden'>
                 {cities.map(c => (
                   <label
                     key={c.id}
@@ -99,8 +99,8 @@ export function Configs({ isOpen, onToggle, isDark, onThemeToggle, cities, selec
                       onChange={() => onToggleCity(c.id)}
                       className='accent-blue-400 shrink-0'
                     />
-                    <i className='fa-solid fa-location-dot theme-text-muted' />
-                    <span>{c.label}</span>
+                    <i className='fa-solid fa-location-dot theme-text-muted shrink-0' />
+                    <span className='truncate'>{c.label}</span>
                   </label>
                 ))}
               </div>
