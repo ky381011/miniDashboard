@@ -7,6 +7,12 @@ export interface CityOption {
   label: string; // 表示名
 }
 
+/** 地方グループ */
+export interface RegionGroup {
+  region: string;   // 地方名
+  cities: CityOption[];
+}
+
 /** 設定パネルコンポーネントのProps */
 interface ConfigsProps {
   /** パネルが開いているかどうか (true: 展開, false: 折りたたみ) */
@@ -17,8 +23,8 @@ interface ConfigsProps {
   isDark: boolean;
   /** テーマを切り替えるコールバック */
   onThemeToggle: () => void;
-  /** 利用可能な都市一覧 */
-  cities: CityOption[];
+  /** 地方でグループ化された都市一覧 */
+  cityGroups: RegionGroup[];
   /** 現在表示中の都市 ID 一覧 */
   selectedCities: string[];
   /** 都市の表示/非表示を切り替えるコールバック */
@@ -30,7 +36,7 @@ interface ConfigsProps {
  * - 画面右端に配置し、isOpen に応じて w-48 / w-10 をアニメーション切り替え
  * - パネルが開いているときのみテーマ切り替えボタンとウィジェット選択を表示する
  */
-export function Configs({ isOpen, onToggle, isDark, onThemeToggle, cities, selectedCities, onToggleCity }: ConfigsProps) {
+export function Configs({ isOpen, onToggle, isDark, onThemeToggle, cityGroups, selectedCities, onToggleCity }: ConfigsProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -51,12 +57,13 @@ export function Configs({ isOpen, onToggle, isDark, onThemeToggle, cities, selec
     return () => document.removeEventListener('mousedown', handler);
   }, [dropdownOpen]);
 
+  const allCities = cityGroups.flatMap(g => g.cities);
   const selectionLabel =
     selectedCities.length === 0
       ? 'なし'
-      : selectedCities.length === cities.length
+      : selectedCities.length === allCities.length
       ? 'すべて'
-      : `${selectedCities.length} / ${cities.length}`;
+      : `${selectedCities.length} / ${allCities.length}`;
 
   return (
     // 設定パネル全体のラッパー: isOpen に応じて幅をアニメーション切り替え
@@ -85,23 +92,29 @@ export function Configs({ isOpen, onToggle, isDark, onThemeToggle, cities, selec
               <i className={`fa-solid fa-chevron-down text-xs transition-transform duration-200 shrink-0 ${dropdownOpen ? 'rotate-180' : ''}`} />
             </button>
 
-            {/* チェックボックスリスト (通常フローで展開) */}
+            {/* チェックボックスリスト (通常フローで展開・地方グループ) */}
             {dropdownOpen && (
               <div className='mt-1 border theme-border rounded overflow-hidden'>
-                {cities.map(c => (
-                  <label
-                    key={c.id}
-                    className='flex items-center gap-2 px-2 py-1.5 cursor-pointer theme-icon-btn w-full text-xs theme-text'
-                  >
-                    <input
-                      type='checkbox'
-                      checked={selectedCities.includes(c.id)}
-                      onChange={() => onToggleCity(c.id)}
-                      className='accent-blue-400 shrink-0'
-                    />
-                    <i className='fa-solid fa-location-dot theme-text-muted shrink-0' />
-                    <span className='truncate'>{c.label}</span>
-                  </label>
+                {cityGroups.map(group => (
+                  <div key={group.region}>
+                    <p className='px-2 pt-2 pb-0.5 text-xs theme-text-muted font-semibold border-t theme-border first:border-t-0'>
+                      {group.region}
+                    </p>
+                    {group.cities.map(c => (
+                      <label
+                        key={c.id}
+                        className='flex items-center gap-2 pl-4 pr-2 py-1.5 cursor-pointer theme-icon-btn w-full text-xs theme-text'
+                      >
+                        <input
+                          type='checkbox'
+                          checked={selectedCities.includes(c.id)}
+                          onChange={() => onToggleCity(c.id)}
+                          className='accent-blue-400 shrink-0'
+                        />
+                        <span className='truncate'>{c.label}</span>
+                      </label>
+                    ))}
+                  </div>
                 ))}
               </div>
             )}
