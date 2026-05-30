@@ -25,10 +25,10 @@ interface ConfigsProps {
   onThemeToggle: () => void;
   /** 地方でグループ化された都市一覧 */
   cityGroups: RegionGroup[];
-  /** 現在表示中の都市 ID 一覧 */
-  selectedCities: string[];
-  /** 都市の表示/非表示を切り替えるコールバック */
-  onToggleCity: (id: string) => void;
+  /** 現在表示中の都市 ID */
+  selectedCity: string;
+  /** 都市を選択するコールバック */
+  onSelectCity: (id: string) => void;
 }
 
 /**
@@ -36,7 +36,7 @@ interface ConfigsProps {
  * - 画面右端に配置し、isOpen に応じて w-48 / w-10 をアニメーション切り替え
  * - パネルが開いているときのみテーマ切り替えボタンとウィジェット選択を表示する
  */
-export function Configs({ isOpen, onToggle, isDark, onThemeToggle, cityGroups, selectedCities, onToggleCity }: ConfigsProps) {
+export function Configs({ isOpen, onToggle, isDark, onThemeToggle, cityGroups, selectedCity, onSelectCity }: ConfigsProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -58,12 +58,7 @@ export function Configs({ isOpen, onToggle, isDark, onThemeToggle, cityGroups, s
   }, [dropdownOpen]);
 
   const allCities = cityGroups.flatMap(g => g.cities);
-  const selectionLabel =
-    selectedCities.length === 0
-      ? 'なし'
-      : selectedCities.length === allCities.length
-      ? 'すべて'
-      : `${selectedCities.length} / ${allCities.length}`;
+  const currentLabel = allCities.find(c => c.id === selectedCity)?.label ?? 'なし';
 
   return (
     // 設定パネル全体のラッパー: isOpen に応じて幅をアニメーション切り替え
@@ -87,11 +82,11 @@ export function Configs({ isOpen, onToggle, isDark, onThemeToggle, cityGroups, s
               onClick={() => setDropdownOpen(o => !o)}
               className='w-full flex items-center justify-between gap-1 text-xs theme-text border theme-border rounded px-2 py-1 hover:opacity-70 whitespace-nowrap overflow-hidden'
             >
-              <span>{selectionLabel}</span>
+              <span className='truncate'>{currentLabel}</span>
               <i className={`fa-solid fa-chevron-down text-xs transition-transform duration-200 shrink-0 ${dropdownOpen ? 'rotate-180' : ''}`} />
             </button>
 
-            {/* チェックボックスリスト (地方グループ) */}
+            {/* ラジオボタンリスト (地方グループ) */}
             {dropdownOpen && (
               <div className='mt-1 border theme-border rounded overflow-y-auto max-h-96'>
                 {cityGroups.map(group => (
@@ -105,9 +100,10 @@ export function Configs({ isOpen, onToggle, isDark, onThemeToggle, cityGroups, s
                         className='flex items-center gap-2 pl-4 pr-2 py-1.5 cursor-pointer theme-icon-btn w-full text-xs theme-text'
                       >
                         <input
-                          type='checkbox'
-                          checked={selectedCities.includes(c.id)}
-                          onChange={() => onToggleCity(c.id)}
+                          type='radio'
+                          name='city-select'
+                          checked={selectedCity === c.id}
+                          onChange={() => { onSelectCity(c.id); setDropdownOpen(false); }}
                           className='accent-blue-400 shrink-0'
                         />
                         <span className='truncate'>{c.label}</span>

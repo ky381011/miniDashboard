@@ -124,25 +124,19 @@ export function Dashboard() {
   const [configsOpen, setConfigsOpen] = useState(false);
   // ダークモードの状態
   const [isDark, setIsDark] = useState(true);
-  // 表示中の都市 ID 一覧 (初期値: なし)
-  const [selectedCities, setSelectedCities] = useState<string[]>([]);
+  // 表示中の都市 ID (初期値: 東京都)
+  const [selectedCity, setSelectedCity] = useState<string>('130000');
 
   // isDark が変わるたびに html 要素の light クラスを切り替える
   useEffect(() => {
     document.documentElement.classList.toggle('light', !isDark);
   }, [isDark]);
 
-  const handleToggleCity = (id: string) => {
-    setSelectedCities(prev =>
-      prev.includes(id) ? prev.filter(c => c !== id) : [...prev, id]
-    );
-  };
-
   return (
     <div className='main-theme min-h-screen min-w-full flex'>
       <Sidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(o => !o)} />
       <Main
-        cities={ALL_CITIES.filter(c => selectedCities.includes(c.id))}
+        city={ALL_CITIES.find(c => c.id === selectedCity) ?? null}
       />
       <Configs
         isOpen={configsOpen}
@@ -150,8 +144,8 @@ export function Dashboard() {
         isDark={isDark}
         onThemeToggle={() => setIsDark(d => !d)}
         cityGroups={ALL_CITY_GROUPS}
-        selectedCities={selectedCities}
-        onToggleCity={handleToggleCity}
+        selectedCity={selectedCity}
+        onSelectCity={setSelectedCity}
       />
     </div>
   )
