@@ -106,7 +106,9 @@ export function WeatherWidget({ regionCode, cityLabel }: WeatherWidgetProps) {
 
           {/* 地域ごとの予報 */}
           <div className="space-y-1 max-h-60 overflow-y-auto pr-1">
-            {forecast.areas.map(area => (
+            {forecast.areas
+              .filter(area => !area.name.includes('伊豆') && !area.name.includes('小笠原'))
+              .map(area => (
               <div
                 key={area.code}
                 className="grid gap-1 border-t theme-border pt-1.5"
