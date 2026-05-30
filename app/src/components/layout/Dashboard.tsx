@@ -124,8 +124,8 @@ export function Dashboard() {
   const [configsOpen, setConfigsOpen] = useState(false);
   // ダークモードの状態
   const [isDark, setIsDark] = useState(true);
-  // 表示中の都市 ID 一覧 (初期値: 東京都のみ)
-  const [selectedCities, setSelectedCities] = useState<string[]>(['130000']);
+  // 表示中の都市 ID 一覧 (初期値: なし)
+  const [selectedCities, setSelectedCities] = useState<string[]>([]);
 
   // isDark が変わるたびに html 要素の light クラスを切り替える
   useEffect(() => {

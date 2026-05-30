@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { getPanelClasses } from '../../utils/panelClasses';
 
 /** 都市の定義 */
@@ -36,6 +37,34 @@ interface ConfigsProps {
  * - パネルが開いているときのみテーマ切り替えボタンとウィジェット選択を表示する
  */
 export function Configs({ isOpen, onToggle, isDark, onThemeToggle, cityGroups, selectedCities, onToggleCity }: ConfigsProps) {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // パネルが閉じられたらドロップダウンも閉じる
+  useEffect(() => {
+    if (!isOpen) setDropdownOpen(false);
+  }, [isOpen]);
+
+  // ドロップダウン外クリックで閉じる
+  useEffect(() => {
+    if (!dropdownOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [dropdownOpen]);
+
+  const allCities = cityGroups.flatMap(g => g.cities);
+  const selectionLabel =
+    selectedCities.length === 0
+      ? 'なし'
+      : selectedCities.length === allCities.length
+      ? 'すべて'
+      : `${selectedCities.length} / ${allCities.length}`;
+
   return (
     // 設定パネル全体のラッパー: isOpen に応じて幅をアニメーション切り替え
     <div className={getPanelClasses(isOpen, 'right')}>
@@ -49,31 +78,45 @@ export function Configs({ isOpen, onToggle, isDark, onThemeToggle, cityGroups, s
           <i className={`fa-solid fa-gear text-lg transition-colors duration-700 ${isOpen ? 'text-blue-400' : ''}`}></i>
         </button>
 
-        {/* 表示都市リスト: isOpen に応じて opacity をアニメーション切り替え */}
-        <div className={`flex-1 flex flex-col min-h-0 border-b theme-border transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
-          <p className='theme-text-muted text-xs px-3 pt-3 pb-1 whitespace-nowrap shrink-0'>表示都市</p>
-          <div className='flex-1 overflow-y-auto'>
-            {cityGroups.map(group => (
-              <div key={group.region}>
-                <p className='px-3 pt-2 pb-0.5 text-xs theme-text-muted font-semibold border-t theme-border first:border-t-0 whitespace-nowrap'>
-                  {group.region}
-                </p>
-                {group.cities.map(c => (
-                  <label
-                    key={c.id}
-                    className='flex items-center gap-2 pl-5 pr-2 py-1 cursor-pointer theme-icon-btn w-full text-xs theme-text'
-                  >
-                    <input
-                      type='checkbox'
-                      checked={selectedCities.includes(c.id)}
-                      onChange={() => onToggleCity(c.id)}
-                      className='accent-blue-400 shrink-0'
-                    />
-                    <span className='truncate'>{c.label}</span>
-                  </label>
+        {/* 表示都市ドロップダウン: isOpen に応じて opacity をアニメーション切り替え */}
+        <div className={`p-3 border-b theme-border transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
+          <p className='theme-text-muted text-xs mb-2 whitespace-nowrap'>表示都市</p>
+          <div ref={dropdownRef}>
+            {/* トリガーボタン */}
+            <button
+              onClick={() => setDropdownOpen(o => !o)}
+              className='w-full flex items-center justify-between gap-1 text-xs theme-text border theme-border rounded px-2 py-1 hover:opacity-70 whitespace-nowrap overflow-hidden'
+            >
+              <span>{selectionLabel}</span>
+              <i className={`fa-solid fa-chevron-down text-xs transition-transform duration-200 shrink-0 ${dropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {/* チェックボックスリスト (地方グループ) */}
+            {dropdownOpen && (
+              <div className='mt-1 border theme-border rounded overflow-y-auto max-h-96'>
+                {cityGroups.map(group => (
+                  <div key={group.region}>
+                    <p className='px-2 pt-2 pb-0.5 text-xs theme-text-muted font-semibold border-t theme-border first:border-t-0 whitespace-nowrap'>
+                      {group.region}
+                    </p>
+                    {group.cities.map(c => (
+                      <label
+                        key={c.id}
+                        className='flex items-center gap-2 pl-4 pr-2 py-1.5 cursor-pointer theme-icon-btn w-full text-xs theme-text'
+                      >
+                        <input
+                          type='checkbox'
+                          checked={selectedCities.includes(c.id)}
+                          onChange={() => onToggleCity(c.id)}
+                          className='accent-blue-400 shrink-0'
+                        />
+                        <span className='truncate'>{c.label}</span>
+                      </label>
+                    ))}
+                  </div>
                 ))}
               </div>
-            ))}
+            )}
           </div>
         </div>
 
