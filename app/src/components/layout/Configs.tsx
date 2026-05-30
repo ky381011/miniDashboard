@@ -86,33 +86,35 @@ export function Configs({ isOpen, onToggle, isDark, onThemeToggle, cityGroups, s
               <i className={`fa-solid fa-chevron-down text-xs transition-transform duration-200 shrink-0 ${dropdownOpen ? 'rotate-180' : ''}`} />
             </button>
 
-            {/* ラジオボタンリスト (地方グループ) */}
-            {dropdownOpen && (
-              <div className='mt-1 border theme-border rounded overflow-y-auto max-h-96'>
-                {cityGroups.map(group => (
-                  <div key={group.region}>
-                    <p className='px-2 pt-2 pb-0.5 text-xs theme-text-muted font-semibold border-t theme-border first:border-t-0 whitespace-nowrap'>
-                      {group.region}
-                    </p>
-                    {group.cities.map(c => (
-                      <label
-                        key={c.id}
-                        className='flex items-center gap-2 pl-4 pr-2 py-1.5 cursor-pointer theme-icon-btn w-full text-xs theme-text'
-                      >
-                        <input
-                          type='radio'
-                          name='city-select'
-                          checked={selectedCity === c.id}
-                          onChange={() => { onSelectCity(c.id); setDropdownOpen(false); }}
-                          className='accent-blue-400 shrink-0'
-                        />
-                        <span className='truncate'>{c.label}</span>
-                      </label>
-                    ))}
-                  </div>
-                ))}
+            {/* ラジオボタンリスト — grid-rows トランジションで滑らか開閉 */}
+            <div className={`grid transition-all duration-200 ease-in-out ${dropdownOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+              <div className='overflow-hidden'>
+                <div className='mt-1 border theme-border rounded overflow-y-auto max-h-96'>
+                  {cityGroups.map(group => (
+                    <div key={group.region}>
+                      <p className='px-2 pt-2 pb-0.5 text-xs theme-text-muted font-semibold border-t theme-border first:border-t-0 whitespace-nowrap'>
+                        {group.region}
+                      </p>
+                      {group.cities.map(c => (
+                        <label
+                          key={c.id}
+                          className='flex items-center gap-2 pl-4 pr-2 py-1.5 cursor-pointer theme-icon-btn w-full text-xs theme-text'
+                        >
+                          <input
+                            type='radio'
+                            name='city-select'
+                            checked={selectedCity === c.id}
+                            onChange={() => { onSelectCity(c.id); setDropdownOpen(false); }}
+                            className='accent-blue-400 shrink-0'
+                          />
+                          <span className='truncate'>{c.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  ))}
+                </div>
               </div>
-            )}
+            </div>
           </div>
         </div>
 
