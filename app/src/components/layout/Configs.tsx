@@ -119,7 +119,7 @@ export function Configs({ isOpen, onToggle, isDark, onThemeToggle, cityGroups, s
         </div>
 
         {/* テーマ切り替えセクション: isOpen に応じて opacity をアニメーション切り替え */}
-        <div className={`p-3 border-t theme-border whitespace-nowrap overflow-hidden transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`mt-auto p-3 border-t theme-border whitespace-nowrap overflow-hidden transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
           <p className='theme-text-muted text-xs mb-2'>テーマ</p>
           {/* テーマ切り替えボタン: isDark に応じてアイコンとラベルを切り替え */}
           <button
