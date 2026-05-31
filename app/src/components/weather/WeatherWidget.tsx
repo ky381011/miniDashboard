@@ -15,6 +15,21 @@ function weatherIcon(condition: string): string {
   return 'fa-smog'
 }
 
+/** 天気概況テキストからアイコンの色クラスを返す */
+function weatherColor(condition: string): string {
+  if (!condition) return 'text-mauve-400'
+  if (condition.includes('雪')) return 'text-cyan-200'
+  if (condition.includes('雷')) return 'text-yellow-400'
+  if (condition.includes('大雨') || condition.includes('激しい雨')) return 'text-blue-500'
+  if (condition.includes('雨') && (condition.includes('晴') || condition.includes('曇')))
+    return 'text-sky-400'
+  if (condition.includes('雨')) return 'text-blue-400'
+  if (condition.includes('曇') && condition.includes('晴')) return 'text-amber-300'
+  if (condition.includes('曇')) return 'text-mauve-400'
+  if (condition.includes('晴')) return 'text-amber-400'
+  return 'text-mauve-500'
+}
+
 /** ISO 日時を「M/D H:mm」形式 (JST) に変換する */
 function formatDateTime(iso: string): string {
   if (!iso) return ''
@@ -127,7 +142,7 @@ export function WeatherWidget({ regionCode, cityLabel }: WeatherWidgetProps) {
                     <div key={p.timeId} className="flex flex-col items-center gap-0.5">
                       {wx ? (
                         <i
-                          className={`fa-solid ${weatherIcon(wx)} text-base theme-text`}
+                          className={`fa-solid ${weatherIcon(wx)} text-base ${weatherColor(wx)}`}
                           title={wx}
                         />
                       ) : (
